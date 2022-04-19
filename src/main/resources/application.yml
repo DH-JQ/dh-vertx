@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: demo-service-dev
+
+logging:
+  level:
+    root: info
+
+vertx:
+  server:
+    http:
+      enabled: true
+      handler-path: /v1
