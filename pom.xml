@@ -15,6 +15,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
+        <skywalking.version>8.9.0</skywalking.version>
     </properties>
 
     <dependencyManagement>
@@ -75,6 +76,18 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--<dependency>-->
+        <!--    <groupId>org.apache.skywalking</groupId>-->
+        <!--    <artifactId>apm-toolkit-log4j-2.x</artifactId>-->
+        <!--    <version>${skywalking.version}</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--    <groupId>org.apache.skywalking</groupId>-->
+        <!--    <artifactId>apm-toolkit-trace</artifactId>-->
+        <!--    <version>${skywalking.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
