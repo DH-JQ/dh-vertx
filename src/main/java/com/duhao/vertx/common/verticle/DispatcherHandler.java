@@ -18,6 +18,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.RoutingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -31,7 +32,7 @@ import org.springframework.context.ApplicationContext;
  * @since 2022/3/31
  */
 @Slf4j
-public class DispatcherHandler implements Handler<HttpServerRequest>, ApplicationRunner {
+public class DispatcherHandler implements Handler<RoutingContext>, ApplicationRunner {
 
     private static final ExceptionHandler DEFAULT_EXCEPTION_HANDLER = new DefaultExceptionHandler();
     private static final RequestHandler NOT_FOUND_REQUEST_HANDLER = new NotFoundRequestHandler();
@@ -54,7 +55,8 @@ public class DispatcherHandler implements Handler<HttpServerRequest>, Applicatio
     private HttpServerProperties httpServerProperties;
 
     @Override
-    public void handle(HttpServerRequest request) {
+    public void handle(RoutingContext context) {
+        HttpServerRequest request = context.request();
         String traceId = getTraceId(request);
 
         try {

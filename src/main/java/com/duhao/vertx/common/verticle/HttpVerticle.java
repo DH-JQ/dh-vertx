@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServer;
+import io.vertx.ext.web.Router;
+import io.vertx.micrometer.PrometheusScrapingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -37,7 +39,10 @@ public class HttpVerticle extends AbstractVerticle {
     }
 
     private void setDispatcherHandler() {
-        httpServer.requestHandler(dispatcherHandler);
+        Router router = Router.router(vertx);
+        router.route("/metrics").handler(PrometheusScrapingHandler.create());
+        router.route().handler(dispatcherHandler);
+        httpServer.requestHandler(router);
     }
 
     private void setExceptionHandler() {
