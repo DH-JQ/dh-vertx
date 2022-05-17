@@ -12,6 +12,7 @@ import io.vertx.core.http.HttpServerRequest;
 public class NotFoundRequestHandler implements RequestHandler {
     @Override
     public Result<String> handle(HttpServerRequest request) {
+        request.response().setStatusCode(404);
         return Result.fail(404, "Not found", request.uri());
     }
 }

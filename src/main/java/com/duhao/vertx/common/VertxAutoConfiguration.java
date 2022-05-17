@@ -6,12 +6,16 @@ package com.duhao.vertx.common;
  * @since 2022/4/14
  */
 
+import java.util.EnumSet;
+
 import com.duhao.vertx.common.verticle.DispatcherHandler;
 import com.duhao.vertx.common.verticle.HttpServerProperties;
 import com.duhao.vertx.common.verticle.HttpVerticle;
 import com.duhao.vertx.common.verticle.VertxServer;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.micrometer.Label;
 import io.vertx.micrometer.MicrometerMetricsOptions;
 import io.vertx.micrometer.VertxPrometheusOptions;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,12 +31,16 @@ import org.springframework.context.annotation.Configuration;
 public class VertxAutoConfiguration {
 
     @Bean
-    public Vertx vertx() {
+    public Vertx vertx(MeterRegistry meterRegistry) {
         MicrometerMetricsOptions metricsOptions = new MicrometerMetricsOptions()
             .setEnabled(true)
-            .setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true));
+            .setJvmMetricsEnabled(true)
+            .setLabels(EnumSet.of(Label.HTTP_METHOD, Label.HTTP_PATH, Label.HTTP_CODE))
+            .setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true))
+            .setMicrometerRegistry(meterRegistry);
         VertxOptions vertxOptions = new VertxOptions()
             .setMetricsOptions(metricsOptions);
+
         return Vertx.vertx(vertxOptions);
     }
 

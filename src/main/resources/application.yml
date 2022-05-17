@@ -2,6 +2,9 @@ spring:
   application:
     name: demo-service-dev
 
+server:
+  port: 9090
+
 logging:
   level:
     root: info
@@ -11,3 +14,23 @@ vertx:
     http:
       enabled: true
       handler-path: /v1
+
+# actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  # ManagementServerProperties
+  server:
+    port: 9090
+  endpoints:
+    # WebEndpointProperties
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, metrics
+  # MetricsProperties
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
